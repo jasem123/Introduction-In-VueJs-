@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcom learn Vue.js</title>
+</head>
+
+<body>
+    <div id="jas">{{ message }}</div>
+    <div id="divjs">
+        <h1>you are welcom</h1>
+        <p>welcome {{ name.toUpperCase() }} We are happy to see you</p>
+        <p>welcome {{ name.length > 4 ? name : 'Name is too short' }} We are happy to see you</p>
+        <p>welcome {{ 'Mr ' + name }} We are happy to see you</p>
+        <p>Your Age is: {{ age + 'Years' }}</p>
+        <p>The Skills is: {{ skills[0] + ' , ' + skills[1] }}</p>
+        <P>Do You Hava Acount: {{ Acount ? 'Yes I Hava Acount' : ' No I Do not Acount' }} </P>
+        <p>Your First Test Is : {{ Tests[0].testName + ' ' + Tests[0].testResult }}</p>
+        <p>Your Second Test Is : {{ Tests[1].testName + ' ' + Tests[1].testResult }}</p>
+        <p>Your Third Test Is : {{ Tests[2].testName + ' ' + Tests[2].testResult }}</p>
+        <p>{{ saySomething() }}</p>
+        <p>{{ sayMyNameAndAge() }}</p>
+        <p>{{ yourAgeInDays()}}</p>
+        <p>{{ date }}</p>
+        <!-- v-on (@) -->
+        <button @click="showNewDate">Show New Date</button>
+
+        <!-- Directives -->
+        <p v-text="'Mr ' + name"></p>
+        <p v-html='title'></p>
+        <ul>
+            <li v-for='skill in skills'>
+                {{ skill }}
+            </li>
+        </ul>
+        <ul>
+            <li v-for='(skill, index) in skills'>
+                {{ index }} => {{ skill }}
+            </li>
+        </ul>
+        <ul>
+            <li v-for='(test, index ) in Tests'>
+                {{ index }} => {{ test.testName }} | {{ test.testResult }}
+            </li>
+        </ul>
+
+        <!-- if -->
+        <p v-if="name">Welcome {{ name }}</p>
+        <p v-else>You Didnt Set A Name</p>
+        <!-- if - else - if -->
+        <p v-if="age > 50">You Are Too Old</p>
+        <p v-else-if="age > 15 && age <= 40">You Are Not Too Old</p>
+        <p v-else>You Are Still Young</p>
+        <!-- once -->
+        <p v-once>Welcome {{ name }}</p>
+        <!-- show  add class display : none-->
+        <p v-show> Age {{ age }}</p>
+        <!-- bind (:)-->
+        <a v-bind:href="imageUrl">
+            <img :src="imageSrc" :alt="imageAltText">
+        </a>
+        <!-- v-model  tow way binding , update the name before chang-->
+        <form action="" method="post">
+            <input type="text" :value="name" placeholder="Using v-bind">
+            <input type="text" v-model="name" placeholder="Using v-model">
+        </form>
+        Your Nmae IS : {{ name }}
+
+        <!-- component app-count -->
+        <app-count :source='source' :url='url'></app-count>
+        <app-count :source='source' :url='url'></app-count>
+        <app-count :source='source' :url='url'></app-count>
+        <app-count :source='source' :url='url'></app-count>
+        <app-component></app-component>
+    </div>
+
+
+
+
+
+
+    <script src="js/vue.js"></script>
+    <script>
+
+
+
+
+
+        var vm = new Vue({
+            el: '#jas',
+            data: {
+                message: 'hello jas'
+            },
+        })
+
+        // new Component [Local Component]
+        var AppComponent = {
+            data: function () {
+                return {
+                    count: 0
+                }
+            },
+            template: '<p>App Comopnent Local Component</p>'
+
+        }
+
+
+        // new Component [Global Component]
+        Vue.component('app-count', {
+            data: function () {
+                return {
+                    name: 'Motaz',
+                    count: 0
+                }
+            },
+            props: ['source', 'url'],
+            template: '<p @click="count++">Hello {{ name }} You Clicked This Paragragh {{ count }} Times  /// and source is {{ source }}   /// and URL Is: {{ url }}</p>'
+        })
+
+
+
+
+
+        var app = new Vue({
+            el: '#divjs',
+            data: {
+                name: 'jasem',
+                age: 22,
+                skills: ['html', 'css', 'js'],
+                Acount: false,
+                Tests: [
+                    {
+                        testName: 'First Test',
+                        testResult: '55%'
+                    },
+                    {
+                        testName: 'Second Test',
+                        testResult: '75%'
+                    },
+                    {
+                        testName: 'Third Test',
+                        testResult: '100%'
+                    },
+                ],
+                date: 'Today',
+                title: '<b class="rase">what the vue.js framwork?</b>',
+                imageSrc: 'imgs/01.jpg',
+                imageAltText: 'The Alternate Text',
+                imageUrl: 'https://www.google.com',
+                source: 'Jasem Abo Amona',
+                url: 'https://google.com',
+
+            },
+            methods: {
+                saySomething: function () {
+                    return 'Hello for Vuejs Function'
+                },
+                sayMyNameAndAge: function () {
+                    return this.name + ' ' + this.age
+                },
+                yourAgeInDays: function () {
+                    return 'Your Age In Days : ' + this.age * 365
+                },
+                showNewDate: function () {
+                    return this.date = Date()
+                }
+            },
+            components: {
+                'app-component': AppComponent
+            }
+
+
+        })
+
+
+    </script>
+</body>
+
+</html>
